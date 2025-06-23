@@ -42,7 +42,6 @@ MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
    7.4. Запустить бота:
         python3 openvpn_monitor_bot.py
 
-   (Токен и id нужно прописать в openvpn_monitor_bot.py или через переменные окружения)
 
 8. Готово!
    — Теперь /clients и /start показывают статус через Telegram.
