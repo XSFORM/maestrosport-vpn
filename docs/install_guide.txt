@@ -23,6 +23,8 @@ MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
 
    После установки добавить/удалить клиента:
    bash openvpn-install.sh
+   если опция scramble xormask 5 не пропишется в конфиги автоматически
+   пропишите вручную в server.conf и в client-template.txt 
 
 7. Ставим Telegram-бота мониторинга:
 
