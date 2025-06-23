@@ -34,8 +34,10 @@ MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
    7.2. Установить зависимости:
         cd monitor_bot
         pip3 install -r requirements.txt
+   7.3. прописываем свой токен и id 
+        nano openvpn_monitor_bot.py
 
-   7.3. Запустить бота:
+   7.4. Запустить бота:
         python3 openvpn_monitor_bot.py
 
    (Токен и id нужно прописать в openvpn_monitor_bot.py или через переменные окружения)
