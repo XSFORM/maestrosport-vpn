@@ -1,4 +1,4 @@
-# MaestroSport VPN
+# openvpn-xormask
 
 Полный комплект для установки OpenVPN с obfuscation (scramble/xormask) и Telegram-бота мониторинга подключённых клиентов.
 
@@ -16,5 +16,5 @@
 
 1. **Клонируем репозиторий**
    ```bash
-   git clone https://github.com/XSFORM/maestrosport-vpn.git
-   cd maestrosport-vpn
+   git clone https://github.com/XSFORM/openvpn-xormask.git
+   cd openvpn-xormask

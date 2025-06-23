@@ -1,5 +1,5 @@
 ============================
-MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
+openvpn-xormask - ПОЛНАЯ ИНСТРУКЦИЯ
 ============================
 
 1. Установка Ubuntu 20.04 на VPS (OVH, Timeweb, Scaleway и т.д.)
@@ -14,8 +14,8 @@ MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
    apt install wget git -y
 
 5. Клонируем репозиторий и переходим в папку проекта:
-   git clone https://github.com/XSFORM/maestrosport-vpn.git
-   cd maestrosport-vpn
+   git clone https://github.com/XSFORM/openvpn-xormask.git
+   cd openvpn-xormask
 
 6. Запускаем установку OpenVPN XOR:
    chmod +x install_openvpn_xor.sh
@@ -54,7 +54,7 @@ MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
       After=network.target
 
       [Service]
-      ExecStart=/usr/bin/python3 /root/maestrosport-vpn/monitor_bot/openvpn_monitor_bot.py
+      ExecStart=/usr/bin/python3 /root/openvpn-xormask/monitor_bot/openvpn_monitor_bot.py
       Restart=always
       User=root
 
@@ -71,5 +71,5 @@ MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
       (Ctrl-B D — чтобы отсоединиться)
 
 ============================
-Автор: XSFORM & MaestroSport VPN Team
+Автор: XSFORM & openvpn-xormask Team
 ============================
