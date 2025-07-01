@@ -25,8 +25,8 @@ cd openvpn-xormask-main
 
 ### 4. Установка OpenVPN XORMask
 ```bash
-chmod +x openvpn_xor_install.sh
-./openvpn_xor_install.sh
+chmod +x install_openvpn_xor.sh
+./install_openvpn_xor.sh
 ```
 После установки:
 - Добавлять/удалять клиентов командой:
