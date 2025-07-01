@@ -1,30 +1,28 @@
 #!/bin/bash
 
-echo "[*] Проверяем блокировку apt/dpkg..."
-while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 2>&1 ; do
-    echo "    Ждём освобождения lock-файла..."
-    sleep 3
-done
+echo "[*] Удаляем стандартный OpenVPN..."
+apt remove --purge openvpn -y
 
-echo "[*] Устанавливаем патченый OpenVPN с XOR..."
-
-wget https://raw.githubusercontent.com/x0r2d2/openvpn-xor/main/openvpn_xor_install.sh -O /tmp/openvpn_xor_install.sh
-chmod +x /tmp/openvpn_xor_install.sh
-bash /tmp/openvpn_xor_install.sh
+echo "[*] Устанавливаем OpenVPN XOR (xormask)..."
+wget https://raw.githubusercontent.com/x0r2d2/openvpn-xor/main/openvpn_xor_install.sh -O openvpn_xor_install.sh
+chmod +x openvpn_xor_install.sh
+./openvpn_xor_install.sh
 
 echo "[*] Перемещаем openvpn-install.sh в /root/ ..."
-if [ -f openvpn-install.sh ]; then
-    mv openvpn-install.sh /root/openvpn-install.sh
-    chmod +x /root/openvpn-install.sh
-    echo "    Скрипт перемещён: /root/openvpn-install.sh"
-fi
+mv openvpn-install.sh /root/
 
 echo "[*] Добавляем scramble xormask 5 в server.conf и client-template.txt ..."
 SERVER_CONF="/etc/openvpn/server.conf"
 CLIENT_TEMPLATE="/etc/openvpn/client-template.txt"
 
-# Только если не существует строки scramble
-grep -qxF "scramble xormask 5" "$SERVER_CONF" || echo "scramble xormask 5" >> "$SERVER_CONF"
-grep -qxF "scramble xormask 5" "$CLIENT_TEMPLATE" || echo "scramble xormask 5" >> "$CLIENT_TEMPLATE"
+if [ -f "$SERVER_CONF" ]; then
+  grep -q "scramble xormask" "$SERVER_CONF" || echo "scramble xormask 5" >> "$SERVER_CONF"
+else
+  echo "[!] Файл $SERVER_CONF не найден. Добавьте строку вручную после создания клиента."
+fi
 
-echo "[✓] Установка и настройка завершены!"
+if [ -f "$CLIENT_TEMPLATE" ]; then
+  grep -q "scramble xormask" "$CLIENT_TEMPLATE" || echo "scramble xormask 5" >> "$CLIENT_TEMPLATE"
+else
+  echo "[!] Файл $CLIENT_TEMPLATE не найден. Добавьте строку вручную после создания клиента."
+fi

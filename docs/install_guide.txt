@@ -1,5 +1,5 @@
 ============================
-openvpn-xormask - ПОЛНАЯ ИНСТРУКЦИЯ
+MAESTROSPORT VPN - ПОЛНАЯ ИНСТРУКЦИЯ
 ============================
 
 1. Установка Ubuntu 20.04 на VPS (OVH, Timeweb, Scaleway и т.д.)
@@ -10,10 +10,10 @@ openvpn-xormask - ПОЛНАЯ ИНСТРУКЦИЯ
 3. Обновляем систему:
    apt update && apt upgrade -y
 
-4. Ставим wget и git (если нет):
-   apt install wget git -y
+4. Ставим wget и unzip (если нет):
+   apt install wget unzip -y
 
-5. Клонируем репозиторий и переходим в папку проекта:
+5. Клонируем проект с GitHub:
    git clone https://github.com/XSFORM/openvpn-xormask.git
    cd openvpn-xormask
 
@@ -22,9 +22,7 @@ openvpn-xormask - ПОЛНАЯ ИНСТРУКЦИЯ
    ./install_openvpn_xor.sh
 
    После установки добавить/удалить клиента:
-   bash openvpn-install.sh
-   если опция scramble xormask 5 не пропишется в конфиги автоматически
-   пропишите вручную в server.conf и в client-template.txt 
+   bash /root/openvpn-install.sh
 
 7. Ставим Telegram-бота мониторинга:
 
@@ -35,41 +33,17 @@ openvpn-xormask - ПОЛНАЯ ИНСТРУКЦИЯ
         cd monitor_bot
         pip3 install -r requirements.txt
 
-  (Токен и id нужно прописать в openvpn_monitor_bot.py или через переменные окружения)
-   7.3. прописываем свой токен и id 
-        nano openvpn_monitor_bot.py
-
-   7.4. Запустить бота:
+   7.3. Запустить бота:
         python3 openvpn_monitor_bot.py
 
+   (Токен и id нужно прописать в openvpn_monitor_bot.py)
 
 8. Готово!
    — Теперь /clients и /start показывают статус через Telegram.
 
-9. (Опционально) Автозапуск бота:
-   1) Systemd:
-      sudo tee /etc/systemd/system/openvpn-monitor.service << 'EOF'
-      [Unit]
-      Description=OpenVPN Monitor Bot
-      After=network.target
-
-      [Service]
-      ExecStart=/usr/bin/python3 /root/openvpn-xormask/monitor_bot/openvpn_monitor_bot.py
-      Restart=always
-      User=root
-
-      [Install]
-      WantedBy=multi-user.target
-      EOF
-      sudo systemctl daemon-reload
-      sudo systemctl enable openvpn-monitor
-      sudo systemctl start openvpn-monitor
-
-   2) Или через tmux/screen:
-      tmux new -s vpnbot
-      python3 openvpn_monitor_bot.py
-      (Ctrl-B D — чтобы отсоединиться)
+9. (Дополнительно) Если хотите автозапуск бота:
+   - Используйте systemd или tmux/screen.
 
 ============================
-Автор: XSFORM & openvpn-xormask Team
+Автор: XSFORM & MaestroSport VPN Team
 ============================
