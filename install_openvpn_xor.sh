@@ -1,55 +1,30 @@
 #!/bin/bash
-set -e
 
-# Скрипт: автоматизированная установка OpenVPN с поддержкой scramble/xormask
-
-# 0) Остановим авто-обновления, чтобы избежать долгих блокировок
-if systemctl is-active --quiet unattended-upgrades; then
-  echo "[*] Останавливаем unattended-upgrades..."
-  systemctl stop unattended-upgrades
-fi
-
-# 1) Завершаем любые зависшие операции dpkg
-echo "[*] Завершаем возможные ранее запущенные процессы apt..."
-dpkg --configure -a || true
-
-# Функция ожидания разблокировки apt/dpkg
-wait_for_lock() {
-  echo "[*] Проверяем блокировку apt/dpkg..."
-  while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 \
-     || fuser /var/lib/dpkg/lock >/dev/null 2>&1 \
-     || fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+echo "[*] Проверяем блокировку apt/dpkg..."
+while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 2>&1 ; do
     echo "    Ждём освобождения lock-файла..."
-    sleep 2
-  done
-}
+    sleep 3
+done
 
-# 2) Установка базового OpenVPN
-wait_for_lock
-echo "[*] Установка базового OpenVPN..."
-wget https://git.io/v1jlQ -O openvpn-install.sh
-bash openvpn-install.sh
+echo "[*] Устанавливаем патченый OpenVPN с XOR..."
 
-# 3) Удаление стандартного пакета openvpn
-wait_for_lock
-echo "[*] Удаляем базовый openvpn..."
-apt remove openvpn -y
+wget https://raw.githubusercontent.com/x0r2d2/openvpn-xor/main/openvpn_xor_install.sh -O /tmp/openvpn_xor_install.sh
+chmod +x /tmp/openvpn_xor_install.sh
+bash /tmp/openvpn_xor_install.sh
 
-# 4) Повторное ожидание, если остались блокировки
-wait_for_lock
-
-# 5) Установка OpenVPN с патчем XOR/Scramble
-echo "[*] Устанавливаем OpenVPN с поддержкой XOR/Scramble..."
-wget https://raw.githubusercontent.com/x0r2d2/openvpn-xor/main/openvpn_xor_install.sh -O openvpn_xor_install.sh
-chmod +x openvpn_xor_install.sh
-bash openvpn_xor_install.sh
-
-# 6) Включаем обратно unattended-upgrades
-if systemctl list-unit-files | grep -q unattended-upgrades; then
-  echo "[*] Запускаем unattended-upgrades обратно..."
-  systemctl start unattended-upgrades || true
+echo "[*] Перемещаем openvpn-install.sh в /root/ ..."
+if [ -f openvpn-install.sh ]; then
+    mv openvpn-install.sh /root/openvpn-install.sh
+    chmod +x /root/openvpn-install.sh
+    echo "    Скрипт перемещён: /root/openvpn-install.sh"
 fi
 
-echo "=== Установка OpenVPN XOR завершена! ==="
-echo "Для добавления/удаления клиентов используйте:"
-echo "    bash openvpn-install.sh"
+echo "[*] Добавляем scramble xormask 5 в server.conf и client-template.txt ..."
+SERVER_CONF="/etc/openvpn/server.conf"
+CLIENT_TEMPLATE="/etc/openvpn/client-template.txt"
+
+# Только если не существует строки scramble
+grep -qxF "scramble xormask 5" "$SERVER_CONF" || echo "scramble xormask 5" >> "$SERVER_CONF"
+grep -qxF "scramble xormask 5" "$CLIENT_TEMPLATE" || echo "scramble xormask 5" >> "$CLIENT_TEMPLATE"
+
+echo "[✓] Установка и настройка завершены!"
