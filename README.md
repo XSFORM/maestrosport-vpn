@@ -41,12 +41,12 @@ apt install python3 python3-pip -y
 
 2. Установка зависимостей:
 ```bash
-cd openvpn-xormask-main/monitor_bot
+cd monitor_bot
 pip3 install -r requirements.txt
 ```
 
 3. Настройка и запуск:
-Открой `openvpn_monitor_bot.py`, вставь свой `TOKEN` и `CHAT_ID`, затем запусти:
+Открой `nano openvpn_monitor_bot.py`, вставь свой `TOKEN` и `CHAT_ID`, затем запусти:
 ```bash
 python3 openvpn_monitor_bot.py
 ```
