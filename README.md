@@ -41,7 +41,7 @@ apt install python3 python3-pip -y
 
 2. Установка зависимостей:
 ```bash
-cd monitor_bot
+cd openvpn-xormask-main/monitor_bot
 pip3 install -r requirements.txt
 ```
 
