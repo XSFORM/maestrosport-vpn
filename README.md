@@ -1,5 +1,5 @@
 
-# MaestroSport VPN (XOR + Telegram Bot)
+# OpenVPN (XOR + Telegram Bot)
 
 Полнофункциональная установка OpenVPN с патчем scramble XOR + Telegram-бот мониторинга подключений.
 
