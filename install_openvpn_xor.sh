@@ -8,8 +8,8 @@ wget https://raw.githubusercontent.com/x0r2d2/openvpn-xor/main/openvpn_xor_insta
 chmod +x openvpn_xor_install.sh
 ./openvpn_xor_install.sh
 
-echo "[*] Перемещаем openvpn-install.sh в /root/ ..."
-mv openvpn-install.sh /root/
+echo "[*] Перемещаем openvpn_xor_install.sh в /root/ ..."
+mv openvpn_xor_install.sh /root/
 
 echo "[*] Добавляем scramble xormask 5 в server.conf и client-template.txt ..."
 SERVER_CONF="/etc/openvpn/server.conf"
